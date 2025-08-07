@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>구구단 연습</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        #problem {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        input[type="number"] {
+            font-size: 1.5em;
+            width: 100px;
+            text-align: center;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            padding: 5px;
+        }
+        button {
+            font-size: 1.2em;
+            padding: 8px 16px;
+            margin-left: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <h1>구구단 연습</h1>
+        <div id="problem"></div>
+        <input type="number" id="answer" autofocus>
+        <button onclick="checkAnswer()">확인</button>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        let num1, num2;
+
+        function newProblem() {
+            num1 = Math.ceil(Math.random() * 8) + 1; // 2단부터 9단까지
+            num2 = Math.ceil(Math.random() * 9); // 1부터 9까지
+            document.getElementById('problem').innerText = `${num1} × ${num2} = ?`;
+            document.getElementById('answer').value = '';
+            document.getElementById('result').innerText = '';
+            document.getElementById('answer').focus();
+        }
+
+        function checkAnswer() {
+            const userAnswer = parseInt(document.getElementById('answer').value);
+            const correctAnswer = num1 * num2;
+            const resultDiv = document.getElementById('result');
+
+            if (isNaN(userAnswer)) {
+                resultDiv.innerText = '숫자를 입력해주세요.';
+                resultDiv.style.color = 'orange';
+                return;
+            }
+
+            if (userAnswer === correctAnswer) {
+                resultDiv.innerText = '정답입니다!';
+                resultDiv.style.color = 'green';
+                setTimeout(newProblem, 1000); // 1초 후에 새 문제 출제
+            } else {
+                resultDiv.innerText = `틀렸습니다. 정답은 ${correctAnswer} 입니다.`;
+                resultDiv.style.color = 'red';
+                setTimeout(newProblem, 2000); // 2초 후에 새 문제 출제
+            }
+        }
+
+        document.getElementById('answer').addEventListener('keyup', function(event) {
+            if (event.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        window.onload = newProblem;
+    </script>
+
+</body>
+</html>
